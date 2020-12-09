@@ -14,9 +14,9 @@ with open("docs/Changelog.rst", "r") as fh:
     long_description += fh.read()
 
 setup(
-    name="senaite.impress",
+    name="valer.impress",
     version=version,
-    description="Publication of HTML/PDF Reports in SENAITE",
+    description="Publication of HTML/PDF Reports in Valer",
     long_description=long_description,
     # long_description_content_type="text/markdown",
     # Get more strings from
@@ -29,9 +29,10 @@ setup(
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
     keywords="",
-    author="RIDING BYTES & NARALABS",
-    author_email="senaite@senaite.com",
-    url="https://github.com/senaite/senaite.impress",
+    author="Valer Group LLC",
+    author_email="valerio.zhang@valer.us",
+    url="https://github.com/valeriozhang/senaite.impress",
+    
     license="GPLv2",
     packages=find_packages("src", exclude=["ez_setup"]),
     package_dir={"": "src"},
