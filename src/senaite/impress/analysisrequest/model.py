@@ -148,6 +148,8 @@ class SuperModel(BaseModel):
     def get_formatted_specs(self, analysis):
         specs = analysis.getResultsRange()
         fs = ''
+        if specs.get('rangecomment', None)
+            return specs.get('rangecomment')
         if specs.get('min', None) and specs.get('max', None):
             fs = '%s - %s' % (specs['min'], specs['max'])
         elif specs.get('min', None):
