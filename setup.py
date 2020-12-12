@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-version = "1.2.4"
+version = "1.2.4rc1"
 
 with open("docs/About.rst", "r") as fh:
     long_description = fh.read()
@@ -14,7 +14,7 @@ with open("docs/Changelog.rst", "r") as fh:
     long_description += fh.read()
 
 setup(
-    name="valeri.impress",
+    name="valer.impress",
     version=version,
     description="Publication of HTML/PDF Reports in Valer",
     long_description=long_description,
