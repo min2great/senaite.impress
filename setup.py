@@ -18,6 +18,7 @@ setup(
     version=version,
     description="Publication of HTML/PDF Reports in Valer",
     long_description=long_description,
+    
     # long_description_content_type="text/markdown",
     # Get more strings from
     # http://pypi.python.org/pypi?:action=list_classifiers
