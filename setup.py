@@ -14,7 +14,7 @@ with open("docs/Changelog.rst", "r") as fh:
     long_description += fh.read()
 
 setup(
-    name="valer.impress",
+    name="valeri.impress",
     version=version,
     description="Publication of HTML/PDF Reports in Valer",
     long_description=long_description,
