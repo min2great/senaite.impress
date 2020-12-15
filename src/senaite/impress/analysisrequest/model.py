@@ -29,6 +29,7 @@ from senaite.core.supermodel import SuperModel as BaseModel
 from senaite.impress import logger
 from senaite.impress.decorators import returns_super_model
 
+from DateTime import DateTime
 
 class SuperModel(BaseModel):
     """Analysis Request SuperModel
@@ -36,6 +37,47 @@ class SuperModel(BaseModel):
 
     def is_invalid(self):
         return self.isInvalid()
+    
+    def get_curr_date_time(self):
+        #ts = time.time()
+        #st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        today = DateTime()
+        return today
+
+    def format_the_date(self, theDate):
+        if theDate:
+                #logging.info("the passed date is : " + str(theDate))
+                formatted_date = str(theDate.month()) + "/" + str(theDate.day()) + "/" + str(theDate.year())
+                return formatted_date
+
+    def format_the_date(self, theDate):
+        if theDate:
+
+                if theDate.day() < 10:
+                        day = "0" + str(theDate.day())
+                else:
+                        day = str(theDate.day())
+
+                if theDate.month() < 10:
+                        month = "0" + str(theDate.month())
+                else:
+                        month = str(theDate.month())
+
+                if theDate.hour() < 10:
+                        hour = "0" + str(theDate.hour())
+                else:
+                        hour = str(theDate.hour())
+
+                if theDate.minute() < 10:
+                        minute = "0" + str(theDate.minute())
+                else:
+                        minute = str(theDate.minute())
+
+                formatted_date = month + "/" + day + "/" + str(theDate.year())
+
+
+                return formatted_date
+    
 
     def is_provisional(self):
         if self.is_invalid():
