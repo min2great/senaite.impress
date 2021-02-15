@@ -78,6 +78,14 @@ class SuperModel(BaseModel):
 
                 return formatted_date
     
+    def get_category_description(self, cat_uid):
+        brains = api.get_brain_by_uid(str(cat_uid))
+
+        if brains:
+            catObj = brains.getObject();
+            return catObj.Description()
+
+        return ""
 
     def is_provisional(self):
         if self.is_invalid():
