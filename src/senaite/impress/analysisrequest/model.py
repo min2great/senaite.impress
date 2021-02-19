@@ -29,6 +29,8 @@ from senaite.core.supermodel import SuperModel as BaseModel
 from senaite.impress import logger
 from senaite.impress.decorators import returns_super_model
 
+from bika.health.utils import get_age_in_years
+
 from DateTime import DateTime
 
 class SuperModel(BaseModel):
@@ -37,7 +39,10 @@ class SuperModel(BaseModel):
 
     def is_invalid(self):
         return self.isInvalid()
-    
+
+    def get_patient_age(self, dob):
+        return get_age_in_years(dob)
+
     def get_curr_date_time(self):
         #ts = time.time()
         #st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
