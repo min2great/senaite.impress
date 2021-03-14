@@ -55,6 +55,13 @@ class SuperModel(BaseModel):
                 formatted_date = str(theDate.month()) + "/" + str(theDate.day()) + "/" + str(theDate.year())
                 return formatted_date
 
+    def format_phone_number(self, phone):
+        formatted_phone = phone
+        if phone and len(phone) == 10:
+            formatted_phone = '-'.join([phone[:3], phone[3:6], phone[6:]])
+
+        return formatted_phone
+
     def format_the_date(self, theDate):
         if theDate:
 
@@ -108,6 +115,11 @@ class SuperModel(BaseModel):
         """Check if the analysis is a retest
         """
         return analysis.isRetest()
+
+    def get_description(self, analysis):
+        """Check if the analysis is a retest
+        """
+        return analysis.Description()
 
     def get_workflow_by_id(self, wfid):
         """Returns a workflow by ID
