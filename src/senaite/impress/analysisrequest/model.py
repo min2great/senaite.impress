@@ -58,7 +58,8 @@ class SuperModel(BaseModel):
     def format_phone_number(self, phone):
         formatted_phone = phone
         if phone and len(phone) == 10:
-            formatted_phone = '-'.join([phone[:3], phone[3:6], phone[6:]])
+            formatted_phone = '-'.join([phone[3:6], phone[6:]])
+            formatted_phone = '(' + phone[:3] + ') ' + formatted_phone
 
         return formatted_phone
 
