@@ -17,6 +17,12 @@
 #
 # Copyright 2018-2020 by it's authors.
 # Some rights reserved, see README and LICENSE.
+from __future__ import print_function
+import time
+import clicksend_client
+from clicksend_client.rest import ApiException
+from pprint import pprint
+from clicksend_client import FaxMessage
 
 
 import inspect
@@ -232,6 +238,40 @@ class AjaxPublishView(PublishView):
         action = data.get("action", "save")
 
         logging.info("================================================================= action receive dis " + action)
+
+        if action == 'fax':
+			# Configure HTTP basic authorization: BasicAuth
+			configuration = clicksend_client.Configuration()
+			configuration.username = 'min2great@gmail.com'
+			configuration.password = 'FAF1A54A-7EC9-963D-921B-A92FB999FA50'
+
+			# create an instance of the API class
+			#api_instance = clicksend_client.AccountApi(clicksend_client.ApiClient(configuration))
+
+			#try:
+					# Get account information
+			#       api_response = api_instance.account_get()
+			#       pprint(api_response)
+			#except ApiException as e:
+			#       print("Exception when calling AccountApi->account_get: %s\n" % e)
+
+
+			# create an instance of the API class
+			api_instance = clicksend_client.FaxApi(clicksend_client.ApiClient(configuration))
+			file_url='https://s3-ap-southeast-2.amazonaws.com/clicksend-api-downloads/_public/_examples/document.pdf'
+			fax_message_list = [FaxMessage(
+											  "sdk","+61261111111",None,None,1,data.get("template"),"CA","min2great@gmail.com")];
+			# FaxMessageCollection | FaxMessageCollection model
+			fax_message = clicksend_client.FaxMessageCollection(file_url=file_url,messages=fax_message_list)
+
+			try:
+					# Send a fax using supplied supported file-types.
+					api_response = api_instance.fax_send_post(fax_message)
+					print(api_response)
+			except ApiException as e:
+					print("Exception when calling FAXApi->fax_send_post: %s\n" % e)
+			# get the selected template
+			template = data.get("template")
 
         # get the selected template
         template = data.get("template")
