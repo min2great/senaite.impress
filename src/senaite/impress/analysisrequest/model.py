@@ -32,7 +32,7 @@ from senaite.impress.decorators import returns_super_model
 from bika.health.utils import get_age_in_years
 
 from DateTime import DateTime
-
+import logging
 class SuperModel(BaseModel):
     """Analysis Request SuperModel
     """
@@ -42,6 +42,20 @@ class SuperModel(BaseModel):
 
     def get_patient_age(self, dob):
         return get_age_in_years(dob)
+
+    def get_patient_gender(self, gender):
+        logging.info("=================== gender received: " + str(gender))
+        if not gender:
+            return ''
+        if gender.lower() == 'male':
+            return 'Male'
+        if gender.lower() == 'female':
+            return 'Female'
+
+        if gender.lower() =='dk':
+            return 'Unknown'
+
+        return gender
 
     def get_curr_date_time(self):
         #ts = time.time()

@@ -42,7 +42,9 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 import logging
+import ast
 
+import base64
 
 class AjaxPublishView(PublishView):
     """Publish View with Ajax exposed methods
@@ -239,40 +241,6 @@ class AjaxPublishView(PublishView):
 
         logging.info("================================================================= action receive dis " + action)
 
-        if action == 'fax':
-			# Configure HTTP basic authorization: BasicAuth
-			configuration = clicksend_client.Configuration()
-			configuration.username = 'min2great@gmail.com'
-			configuration.password = 'FAF1A54A-7EC9-963D-921B-A92FB999FA50'
-
-			# create an instance of the API class
-			#api_instance = clicksend_client.AccountApi(clicksend_client.ApiClient(configuration))
-
-			#try:
-					# Get account information
-			#       api_response = api_instance.account_get()
-			#       pprint(api_response)
-			#except ApiException as e:
-			#       print("Exception when calling AccountApi->account_get: %s\n" % e)
-
-
-			# create an instance of the API class
-			api_instance = clicksend_client.FaxApi(clicksend_client.ApiClient(configuration))
-			file_url='https://s3-ap-southeast-2.amazonaws.com/clicksend-api-downloads/_public/_examples/document.pdf'
-			fax_message_list = [FaxMessage(
-											  "sdk","+61261111111",None,None,1,data.get("template"),"CA","min2great@gmail.com")];
-			# FaxMessageCollection | FaxMessageCollection model
-			fax_message = clicksend_client.FaxMessageCollection(file_url=file_url,messages=fax_message_list)
-
-			try:
-					# Send a fax using supplied supported file-types.
-					api_response = api_instance.fax_send_post(fax_message)
-					print(api_response)
-			except ApiException as e:
-					print("Exception when calling FAXApi->fax_send_post: %s\n" % e)
-			# get the selected template
-			template = data.get("template")
-
         # get the selected template
         template = data.get("template")
 
@@ -298,6 +266,60 @@ class AjaxPublishView(PublishView):
 
         # generate a PDF for each HTML report
         pdf_reports = map(publisher.write_pdf, html_reports)
+
+        if True:
+                        logging.info("========================================================================= inside")
+                        # Configure HTTP basic authorization: BasicAuth
+                        configuration = clicksend_client.Configuration()
+                        configuration.username = 'min2great@gmail.com'
+                        configuration.password = 'FAF1A54A-7EC9-963D-921B-A92FB999FA50'
+
+                        configuration.username = 'admin@valer.us'
+                        configuration.password = '36741B0B-5B98-0772-4957-ED292B629CDF'
+
+                        # create an instance of the API class
+                        #api_instance = clicksend_client.AccountApi(clicksend_client.ApiClient(configuration))
+
+                        #try:
+                                        # Get account information
+                        #       api_response = api_instance.account_get()
+                        #       pprint(api_response)
+                        #except ApiException as e:
+                        #       print("Exception when calling AccountApi->account_get: %s\n" % e)
+
+
+                        # create an instance of the API class
+                        api_instance = clicksend_client.UploadApi(clicksend_client.ApiClient(configuration))
+                        convert = 'fax' # str |
+                        upload_file = clicksend_client.UploadFile(content = base64.b64encode(pdf_reports[0]));
+
+                        uploaded_file_url = None
+                        try:
+                                # Upload File
+                                api_response = api_instance.uploads_post(upload_file, convert)
+
+                                print(api_response)
+                                d = ast.literal_eval(api_response)
+                                uploaded_file_url =d['data']['_url']
+                                print(uploaded_file_url)
+                        except ApiException as e:
+                                print("Exception when calling UploadApi->uploads_post: %s\n" % e)
+
+
+                        # create an instance of the API class
+                        api_instance = clicksend_client.FaxApi(clicksend_client.ApiClient(configuration))
+                        file_url='https://s3-ap-southeast-2.amazonaws.com/clicksend-api-downloads/_public/_examples/document.pdf'
+                        file_url = uploaded_file_url
+                        fax_message_list = [FaxMessage( "sdk","+61261111111",None,None,1,data.get("template"),"CA","min2great@gmail.com")];
+                        # FaxMessageCollection | FaxMessageCollection model
+                        fax_message = clicksend_client.FaxMessageCollection(file_url=file_url,messages=fax_message_list)
+
+                        try:
+                                        # Send a fax using supplied supported file-types.
+                                        api_response = api_instance.fax_send_post(fax_message)
+                                        print(api_response)
+                        except ApiException as e:
+                                        print("Exception when calling FAXApi->fax_send_post: %s\n" % e)
 
         # extract the UIDs of each HTML report
         # NOTE: UIDs are injected in `.analysisrequest.reportview.render`
